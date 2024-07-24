@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Código Morse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Convertidor de Código Morse</h1>
+        <textarea id="inputText" placeholder="Escribe tu texto aquí..."></textarea>
+        <button onclick="convertToMorse()">Convertir</button>
+        <div id="outputText" class="output"></div>
+    </div>
+    <script>
+        async function convertToMorse() {
+            const inputText = document.getElementById('inputText').value;
+            const response = await fetch('/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: inputText })
+            });
+            const data = await response.json();
+            document.getElementById('outputText').textContent = data.morse_code;
+        }
+    </script>
+</body>
+</html>
